@@ -1,9 +1,17 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { QuizData, StoryResponse } from "../types";
 
-// Initialize Gemini Client
-// CRITICAL: Uses process.env.API_KEY as per instructions.
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// Helper to get the AI client safely. 
+// This prevents the app from crashing at startup if the API key is missing.
+const getAiClient = () => {
+  // CRITICAL: Uses process.env.API_KEY as per instructions.
+  // The vite config replaces this string at build time.
+  const apiKey = process.env.API_KEY;
+  if (!apiKey) {
+    throw new Error("API Key não configurada. Verifique as configurações do Vercel.");
+  }
+  return new GoogleGenAI({ apiKey });
+};
 
 const MODEL_NAME_TEXT = 'gemini-2.5-flash';
 
@@ -21,6 +29,7 @@ export const generateBibleStory = async (topic: string): Promise<StoryResponse> 
   - moral: Uma frase curta explicando o que aprendemos com essa história (A Lição de Hoje).`;
 
   try {
+    const ai = getAiClient();
     const response = await ai.models.generateContent({
       model: MODEL_NAME_TEXT,
       contents: prompt,
@@ -43,7 +52,7 @@ export const generateBibleStory = async (topic: string): Promise<StoryResponse> 
     return JSON.parse(text) as StoryResponse;
   } catch (error) {
     console.error("Error generating story:", error);
-    throw new Error("Não foi possível criar a história agora. Tente novamente!");
+    throw new Error("Não foi possível criar a história agora. Verifique a chave da API ou tente novamente!");
   }
 };
 
@@ -67,6 +76,7 @@ export const generateBibleQuiz = async (topic: string): Promise<QuizData> => {
   }`;
 
   try {
+    const ai = getAiClient();
     const response = await ai.models.generateContent({
       model: MODEL_NAME_TEXT,
       contents: prompt,
