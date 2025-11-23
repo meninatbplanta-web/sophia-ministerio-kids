@@ -28,6 +28,26 @@
               'gentle-pink': '#FFB6C1',
               'primary': '#4F46E5',
               'secondary': '#10B981',
+              'pastel-purple': '#E0BBE4',
+              'pastel-blue': '#957DAD',
+              'pastel-red': '#FFDFD3',
+              'pastel-yellow': '#FEC8D8',
+              'pastel-green': '#D291BC',
+            },
+            animation: {
+              'bounce-slow': 'bounce 3s infinite',
+              'wiggle': 'wiggle 0.5s ease-in-out',
+              'pop': 'pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+            },
+            keyframes: {
+              wiggle: {
+                '0%, 100%': { transform: 'rotate(-3deg)' },
+                '50%': { transform: 'rotate(3deg)' },
+              },
+              pop: {
+                '0%': { transform: 'scale(0.8)', opacity: '0' },
+                '100%': { transform: 'scale(1)', opacity: '1' },
+              }
             }
           }
         }
@@ -39,6 +59,27 @@
       }
       .blob-shape {
         border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+      }
+      /* Card Flip Animation Utilities */
+      .perspective-1000 { perspective: 1000px; }
+      .transform-style-3d { transform-style: preserve-3d; }
+      .backface-hidden { backface-visibility: hidden; }
+      .rotate-y-180 { transform: rotateY(180deg); }
+      
+      /* Custom Scrollbar for fun look */
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1; 
+        border-radius: 5px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #FFB6C1; 
+        border-radius: 5px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #ff9aa2; 
       }
     </style>
   <script type="importmap">
